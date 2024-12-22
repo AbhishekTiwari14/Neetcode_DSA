@@ -1,0 +1,148 @@
+                        ARRAYS: 
+
+(1) KADANE'S ALGO: Find largest sum subarray (non-empty)
+
+-> Take 2 vars: curr_sum(initially = 0) & max_sum(initially = INT_MIN) & while traversing the array, do curr_sum = max(arr[i], curr_sum + arr[i]), max_sum = max(max_sum, curr_sum) & if sum<0 => sum = 0.
+
+        int kadanes(vector<int>& nums) {
+            int max_sum = INT_MIN;
+            int curr_sum = 0;
+
+            for (int n : nums) {
+                curr_sum = max(n, curr_sum + n);
+                max_sum = max(max_sum, curSum);
+            }
+            return max_sum;
+        }
+
+Q1a: Find largest sum subarray (non-empty) in circular array: 
+-> int currMax = 0, globalMax = INT_MIN, currMin = 0, globalMin = INT_MAX, total = 0 & while traversing the array: currMax = max(arr[i], currMax+arr[i]), currMin = min(n, currMin+n), globalMax = max(globalMax, currMax), globalMin = min(globalMin, currMin), total+= n; 
+    return globalMax>0 ? max(globalMax, total - globalMin) : globalMax ;
+
+(2) SLIDING WINDOW: FIXED SIZE
+
+-> Take 2 pointers: l & r & keep r-l == k (to maintain window size of k) or r-l <=k (to keep window size <=k, if the question requires to) and traverse the array.
+
+Q2a: Check if there exists a subarray of size <= k+1 such that it has a repeating/duplicate no. in it.
+->  int l =0, unordered_set<int> st;
+    for(int r=0; r<arr.size(); r++){
+        if(r-l > k){ 
+            st.erase(nums[l]);
+            l++;
+        }
+        if(st.find(nums[r]) != st.end()) return true;
+        st.insert(nums[r]);
+    }
+    return false;
+
+Q2b: Number of Sub-arrays of Size K and Average Greater than or Equal to Threshold
+->  int l=0, sum=0, ans=0;
+    for(int r=0; r<arr.size(); r++){
+        if(r-l+1 > k) sum-= arr[l++];
+        sum+= arr[r];
+        if(r-l+1 == k && sum/k >= threshold) ans++;
+    }
+    return ans;
+
+(3) SLIDING WINDOW: VARIABLE SIZE
+
+Q3a: Minimum Size Subarray  with Sum >= target
+->  int l=0, sum=0, ans=INT_MAX;
+    for(int r=0; r<nums.size(); r++){
+        sum+= nums[r];
+        while(sum-nums[l] >= target){
+            sum-= nums[l];
+            l++;
+        }
+        if(sum>= target) ans = min(ans, r-l+1);
+    }
+    return ans == INT_MAX ? 0 : ans;
+
+Q3b: Find Length of Longest Substring Without Repeating Characters
+->  unordered_set<char> st;
+    int ans = 0, l=0;
+    loop(r=0 to arr.size()-1) -> if(arr[r](ie, x) is not in set, then insert it, else while(arr[l] != x) => st.erase(arr[l], l++), l++; ans = max(ans, r-l+1)) ;  return ans
+
+Q3c: Given an array of Uppercase Alphabets and an integer k; find the length of longest substring possible with all Alphabets same, if you can change any alphabet to any other alphabet (you can do this upto k times).
+-> use hashmap,ie, vector<int> (26,0) freq; int l=0, ans=0; for(int r=0 to arr.size()-1): { freq[s[r]-'A']++, maxFreq = *max_element(freq.begin(), freq.end()),  while(r-l+1 - maxFreq > k) freq[s[l] - 'A']--, l++ ; ans = max(ans, r-l+1)} return ans  : TC: O(26*n)
+ 
+(4) TWO POINTERS:
+
+-> take 2 pointers: l(generally, starting at start of array) & r(generally, starting at end of array) anf move them as required in the question
+
+Q4a: Check If given array forms a palindrome (ignore not alphanumeric chars and treat uppercase & lowercase alphabets as same).
+-> const n = s.length, let l = 0, r = n-1
+    let st = s.toLowerCase()
+    const isAlphanumeric = char => /^[a-zA-Z0-9]$/.test(char)
+    while(l<=r){
+        while(l<n && !isAlphanumeric(s[l])) l++
+        while(r>=0 && !isAlphanumeric(s[r])) r--
+        if(st[l] !== st[r]) return false
+        l++
+        r--
+    }
+    return true
+
+Q4b: Find two nos. in the sorted array which sum up to int target.
+-> int l=0, r=arr.size()-1; while(l<r) if(arr[l] + arr[r] == target) return {l, r}; else if arr[l] + arr[r] < target, l++ ; else r--;  
+
+Q4c: Remove duplicates from sorted array and return no. of unique values in it.
+-> int l=0; for(int r=1 to arr.size()-1){ if(arr[r] != arr[r-1]), then arr[l+1] = arr[r], l++ } return l+1
+
+Q4d: Given a sorted array nums, remove some duplicates in-place such that each unique element appears at most twice.
+-> int l=0, r=0; 
+    while(r<arr.size()){ 
+        int count = 1; 
+        while(r+1<nums.size() && nums[r] == nums[r+1]){
+            count++;
+            r++;
+        }
+        int x = min(count, 2);
+        while(x){
+            nums[l] = nums[r];
+            l++;
+            x--;
+        }
+        r++;
+    }
+    return l; 
+
+Q4e: You are given an arr: height, where you have to assume a line corresponding to each value of array with 2 enpoints of line being: (i, 0) & (i, height[i]). Return the maximum amount of water a container can store (image attached).
+-> int l=0, r=height.size()-1, ans = 0;
+        while(l<r){
+            int h = min(height[l], height[r]);
+            int w = r-l;
+            ans = max(ans, h*w);
+            if(height[l] < height[r]) l++;
+            else r--;
+        }
+        return ans;
+
+Q4f: given an array: "height" where each element represents height of the building, each building has width = 1 and all buildings are in-line with gap of 1 each. compute how much water it can trap after raining.
+-> vol. of water trapped on top of a particular building(at 'i'th index) = min(max building height on left side of this building, max building height on right side of this building) - height[i] (if this is -ve, take it as 0);
+So, two pointers solution: take l=0, r=arr.size()-1, maxL=height[l], maxR=height[r]; while(l<r){ if(maxL<=maxR){ l++, maxL=max(maxL, height[l]), ans+= maxL-height[l] ; else r--, maxR=max(maxR, height[r], ans+= maxR-height[r]) } } return ans; 
+
+(5) PREFIX SUMS:  
+
+-> PrefixSum[i] = arr[0] + arr[1] + arr[2] + ... + arr[i];
+   PrefixSum[i+1] = PrefixSum[i] + arr[i+1]
+   sum of subarray with starting index = i & ending index = j is = PrefixSum[j] - PrefixSum[i-1]
+   Similarly, other patterns such as prefix product is possible.
+   Postfix Sum: postfixSum[i] = arr[n-1] + arr[n-2] + arr[n-3] + ... + arr[i]
+
+Q5a: Find pivot index in the given array: pivot index = index where the sum of all the numbers strictly to the left of the index is equal to the sum of all the numbers strictly to the index's right. If no pivot index, return -1
+-> at pivot index i, postfixSum[i] == prefixSum[i]
+
+Q5b:
+
+Q5c: given an array nums, return an array ans such that ans[i] = product of all elements of nums except nums[i]. (you can't use /). Also, you can't take any extra space other than ans array
+-> ans[0] = postProduct[1 to n-1], ans[n-1] = preProduct[0 to n-2]; for others, ans[i] = preProduct[0 to i-1] * postProduct[i+1 to n-1]. So, first store preProducts corresponding to each index in ans, then do another loop and multiply them by postProducts at each index.
+
+Q5d: return the no. of subarrays whose sum = k. 
+-> use map<int,int> to store (sum, count) which stores prefix sums and the count of no. of times the sum appears. Also do map[0] = 1 (ie, sum = 0 for empty subarray)
+now, while traversing the array, keep track of current 'sum'; check if (sum-k) exists in map and ans+= count of (sum-k) in map and store/increase count of map[sum]
+
+                        
+                        LINKED LIST:
+
+-> 

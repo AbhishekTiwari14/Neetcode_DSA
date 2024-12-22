@@ -1,0 +1,49 @@
+                    ARRAYS: 
+
+    C++: (array = static array(size needs to be declared as well), vector = dynamic array)
+
+-> declaration: 
+    int arr1[5] = {1, 2,}; (remaining 3 elements initialized to 0) 
+    int arr2[5] = {0}; (All elements initialized to 0)
+    vector<int> arr4; 
+    vector<int> arr5(8,0); (vector of initial size =  & all elements = 0)
+
+-> loop: 
+    for(int i=0; i<n; i++){}
+    for(int n: arr){}
+    for(auto x: arr2){}
+
+-> built-in methods:
+    sort(arr.begin(), arr.end());  // or the iterators; ie, sort(arr, arr+5) will sort first 5 elements
+    reverse(arr.begin(), arr.end());
+    int max = *max_element(arr.begin(), arr.end());
+    .push_back(); .pop_back(), .back(), 
+
+    JS: (array is always dynamic)
+
+-> declaration:
+    let arr1 = [1, 2, 3, 4];
+    let arr2 = new Array(1, 2, 3);
+    let arr2 = new Array(8).fill(0); //creates array of initial size = 8 & all elements = 0
+
+-> loop: 
+    for (let i = 0; i < arr.length; i++) {}
+    for (let value of arr) {}
+    arr.forEach((value, index) => console.log(index, value));
+
+-> built-in methods:
+    arr.sort();
+    arr.reverse();  
+    .push(); .pop(); .unshift(newEl) (Adds new element at 0th index & shifts other elements to 1 step right); .shift() (removes element at 0th index and moves other elements to 1 step left); .indexOf(element); .includes(x); 
+    
+    array.slice(startIndex, endIndex): extracts elements from startIndex(inclusive) to endIndex(exclusive) without modifying the original array. Ex. ar = [0,1,2,3,4]; const v = ar.slice(2,5) => v = [2,3,4]
+
+    array.splice(startIndex, deleteCount, item1, item2, ..., itemN): modifies original array by removing deleteCount no. of elements starting from index startIndex and replaces them with item1, item2....
+
+-> arrays can be used to create 'stack' (LIFO)
+
+...........................................................................................................
+
+                    LINKED LISTS: 
+
+-> 
