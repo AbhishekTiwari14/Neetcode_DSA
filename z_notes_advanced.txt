@@ -145,4 +145,30 @@ now, while traversing the array, keep track of current 'sum'; check if (sum-k) e
                         
                         LINKED LIST:
 
--> 
+-> Fast & Slow Pointers: ListNode* slow = head, fast = head; while(fast && fast->next){ slow = slow->next; fast = fast->next->next };  
+
+-> Floyd's Algo: The first node of the cycle is equidistant from the node where slow & fast nodes meet & the head node. See Fig (6d): slow & fast nodes meet at 9, m(from head to 1st node of cycle) = m(9 to first node of cycle).  
+Why it works: 
+ListNode* slow = head, fast = head; while(fast && fast->next){ slow = slow->next; fast = fast->next->next; if(slow == fast){ slow = head; while(slow != fast){slow = slow->next; fast = fast->next;} return slow } } return null;  
+
+
+Q6a: Find the middle node (if size = even, return 2nd middle node).
+-> slow, fast = head; while(fast && fast->next){ slow = slow->next; fast = fast->next->next } return slow
+
+Q6b: Pair Sum: find the maximum pair sum in a LL of 'even' size. nodes at index i & n-1-i make a pair.
+-> Reverse the first half of the LL & then traverse the 2 parts simulatneously as the two nodes will be the ones forming the pair. 
+
+Q6c: Detect cycle: return true if LL has a cycle, else return false.
+-> *slow, *fast = head; while(fast && fast->next){ slow = slow->next; fast = fast->next->next; if(slow == fast) return true } return false;
+
+Q6d: Return the first node of the cycle; if no cycle, return null.
+-> Floyd's Algo.
+
+Q6e: Given an array 'nums' of size 'n+1' where each element is in range [1, n] & has exactly one repeating no. (2 or more occurences), find the repeating no.
+-> Floyd's Algo: int slow =0, fast = 0; while(true){ slow = nums[slow]; fast = nums[fast]; fast = nums[fast]; if(slow == fast){ slow = 0; while(slow != fast){ slow = nums[slow]; fast = nums[fast] } return slow } }
+
+
+
+
+
+300290647

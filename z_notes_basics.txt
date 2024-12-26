@@ -46,4 +46,35 @@
 
                     LINKED LISTS: 
 
--> 
+    SINGLY LL:
+
+-> Each node has a value & a next pointer which points(reference) to the next node
+-> head = 1st node of LL; tail = last node of LL
+-> inserting/removing node from begining/end => TC = O(1) but searching for a node = O(n)
+-> inserting/removing node from middle => TC = O(1) (not counting TC of iterating to that node)
+-> We can implement Queue (FIFO) using LL (removing at head)
+
+    C++: 
+
+-> Has built-in LL data structure: list<int> myList = {1, 4, 3};  // 1->4->3
+
+-> built-in methods: 
+    .push_front(val); .push_back(val); .pop_front(); .pop_back(); .insert(iterator, val);
+    .erase(iterator/position); .size(); .clear(); .empty(); .sort(); .reverse()
+
+    JS:
+
+-> no built-in LL but array can be used (since, it has methods such as .unshift(), .shift() (althought, there TC: O(n))) but we can do custom implementation using classes whenever required.
+
+Q2c: Reverse the LL.
+-> Take 3 pointers: prev (=null), curr (=head) & fwd (=null); while(curr): fwd = curr.next; curr.next = prev; prev = curr; curr = fwd;    return prev 
+
+Q2d: Merge 2 sorted lists and make a single sorted list out of them and return its head. 
+-> Take a dummyNode(next = null) & tail = dummyNode; while(h1 && h2){ if(h1.val >= h2.val) tail->next = h2, h2 = h2->next, tail = tail->next;  else tailNode->next = h1, h1 = h1->next, tail = tail->next  }; 
+while(h1) tail = h1, h1 = h1->next, tail = tail->next;  while(h2) tail = h2, h2 = h2->next, tail = tail->next; return dummy->next; 
+
+Q2e: Design linked list with methods: get(index), addAtHead(val), addAtTail(val), addAtIndex(index, val), deleteAtIndex(index).
+-> Node class: val & next pointer; LinkedList class: left(head) pointer & size and contains the above methods.
+
+Q2f: Design Browser history with methods to go to prev and next pages/urls. 
+-> Use DLL (using stack/dynamic array is more efficient bcoz for going back/fwd n pages-> TC: DLL->O(N) but stack/array-> O(1)).
