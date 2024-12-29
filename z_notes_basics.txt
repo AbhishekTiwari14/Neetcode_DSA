@@ -32,7 +32,7 @@
     arr.forEach((value, index) => console.log(index, value));
 
 -> built-in methods:
-    arr.sort();
+    arr.sort(); in js, .sort() method performs lexograhic sort (& not numerical sort); so to sort nos. in ascending order: nums.sort((a, b) => a - b);
     arr.reverse();  
     .push(); .pop(); .unshift(newEl) (Adds new element at 0th index & shifts other elements to 1 step right); .shift() (removes element at 0th index and moves other elements to 1 step left); .indexOf(element); .includes(x); 
     

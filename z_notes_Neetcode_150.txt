@@ -28,5 +28,44 @@
 (7) Longest consecutive Subsequence: Given an unsorted array of integers nums, return the length of the longest consecutive elements sequence (ex. 4,5,6,7). You must write an algorithm that runs in O(n) time.
 -> Simple soultion is to sort the array & traverse; but TC: O(nlogn); create a set & put all the values in array into the set. now while traversing the array, check if set has (no.-1), if yes continue to next no. (bcoz this means that curr no. is not the start of its subsequence); else { while(set.has(no.+1)){ no.++; len++ }; ans = max(ans, len) } ; TC: O(n), SC: O(n)
 
+(8) 
 ...........................................................................................................
+
+                TWO POINTERS:
+
+(9) Valid Palindrome: check if given sentence is a palindrome after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters.
+-> let l = 0, r = n-1
+    let st = s.toLowerCase()
+    while(l<=r){
+        while(l<n && !/^[a-zA-Z0-9]$/.test(st[l])) l++  //if(not alphanumeric, skip)
+        while(r>=0 && !/^[a-zA-Z0-9]$/.test(st[r])) r--
+        if(st[l] !== st[r]) return false
+        l++
+        r--
+    }
+    return true
+
+(10) Two Sum 2 (sorted array) : given a sorted array, return the indeces of the two values which sum up to 'target'. (Be assured that there will be exactly 1 solution).
+->l=0, r=n-1; while(l<r){ of arr[l]+arr[r]<target -> l++; else if >target -> r--; else return {l,r} }
+
+(11) 3 Sum: Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that nums[i] + nums[j] + nums[k] == 0 and i!=j!=k.
+-> Sort the array; now traverse the array and create 2 pointers: l = i+1, r = n-1; while(l<r){ if(nums[i]+nums[l]+nums[r] (ie,sum) == 0){ ans.push_back(nums[i], nums[l], nums[r]); l++; while(l<r && nums[l-1] == nums[l]) l++; }; else if(sum<0) l++; else r-- };
+
+NOTE: in js, .sort() method performs lexograhic sort (& not numerical sort); so to sort nos. in ascending order: nums.sort((a, b) => a - b);
+
+(12) Container With Most Water: You are given an arr: height, where you have to assume a line corresponding to each value of array with 2 enpoints of line being: (i, 0) & (i, height[i]). Return the maximum amount of water a container can store (image attached).
+-> water stored in container = (r-l) * min(height[l], height[r])  
+        int l=0, r=height.size()-1, ans = 0;
+        while(l<r){
+            int h = min(height[l], height[r]);
+            int w = r-l;
+            ans = max(ans, h*w);
+            if(height[l] < height[r]) l++;
+            else r--;
+        }
+        return ans;
+
+(13) Trapping Rain Water: given an array: "height" where each element represents height of the building, each building has width = 1 and all buildings are in-line with gap of 1 each. compute how much water it can trap after raining.(see figure)
+-> vol. of water trapped on top of a particular building(at 'i'th index) = min(max building height on left side of this building, max building height on right side of this building) - height[i] (if this is -ve, take it as 0);
+So, two pointers solution: take l=0, r=arr.size()-1, maxL=height[l], maxR=height[r]; while(l<r){ if(maxL<=maxR){ l++, maxL=max(maxL, height[l]), ans+= maxL-height[l] ; else r--, maxR=max(maxR, height[r], ans+= maxR-height[r]) } } return ans; 
 
