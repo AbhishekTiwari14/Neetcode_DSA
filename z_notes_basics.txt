@@ -43,6 +43,53 @@
 -> arrays can be used to create 'stack' (LIFO)
 
 ...........................................................................................................
+                    
+                    MAPS
+
+-> key:value pairs are stored (keys must be unique)
+-> array is used behinfd the scenes, key:value pair is hashed to link it with index of array where it needs to be put. Collisions, chaining, open addressing 
+-> access/insert/delete:  O(1) in avg. case (but can get to O(n) in rare worst case)
+
+        C++:
+
+-> declaration: unordered_map<int, string> map1; // Key: int, Value: string
+
+-> built-in methods: 
+    .erase(key), access: map1[key], insert: map1.insert({2, "Banana"}); or map1[2] = "Banana" ;
+    map1.find(key) != map1.end() => key exists
+
+-> Loop: for(auto pair : map1){ pair.first; pair.second }; .first = key, .second = value
+
+        JS:
+
+-> declaration: let map = new Map();
+
+-> built-in methods: map.set(1, "Apple"); map.delete(key); map.has(key); map.size(); 
+
+-> Loop: map.forEach((value, key) => {  })  OR for (let [key, val] of map) {}
+
+-> object can be used in place of map but it would have certain limitations (no size method, overwrite values, etc.)
+
+                    SETS (very similar to map and has same methods)
+
+-> collection of unique values (no duplicates allowed) 
+-> access/insert/delete:  O(1) in avg. case (but can get to O(n) in rare worst case)
+
+        C++:
+
+-> declaration: unordered_set<int> set1; 
+
+
+-> built-in methods: set1.insert(10); set1.erase(10); set1.find(20) != set1.end(); set1.size(); for(auto val : set1) cout<<val; 
+
+        JS:
+
+-> declaration: let set = new Set();
+
+-> built-in methods: set.add(10); set.delete(10); set.has(20); set.size; set.forEach((value) => {
+  console.log(value)})
+  
+...........................................................................................................
 
                     LINKED LISTS: 
 
@@ -78,3 +125,9 @@ Q2e: Design linked list with methods: get(index), addAtHead(val), addAtTail(val)
 
 Q2f: Design Browser history with methods to go to prev and next pages/urls. 
 -> Use DLL (using stack/dynamic array is more efficient bcoz for going back/fwd n pages-> TC: DLL->O(N) but stack/array-> O(1)).
+
+...........................................................................................................
+
+                    STACKS:
+                
+->  

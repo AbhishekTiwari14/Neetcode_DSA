@@ -1,0 +1,32 @@
+        Arrays & Hashing:
+
+(1) Return true if any value in array appears atleast twice ; else return false.
+-> S1: use set: TC: O(n), SC: O(n); S2: sort & traverse the array: TC: O(nlogn), SC: O(1)
+
+(2) Valid Anagram: given two strings, return true if they are anagrams of each other (anagrams = words formed by rearranging the letters, ex. abcd & bdac)
+-> S1: use map: TC: O(n), SC: O(n); S2: sort the 2 strings & traverse them simultaneouly: TC: O(nlogn)
+
+(3) Two Sum: return the indeces of two nos. in the array which sum up to 'target'. (Note: There will be exactly 1 correct pair for each input).
+-> While traversing the array, use a map; if(target-nums[i]) is in map, return {i, mp[target-nums[i]]}, else mp[nums[i]] = i; TC: O(n), SC: O(n)
+
+(4) Group Anagrams: Given an array of strings, group the anagrams together & return ans as vector of vectors where each vector stores all anagrams of a type. Ex. Input: strs = ["eat","tea","tan","ate","nat","bat"]; Output: [["bat"],["nat","tan"],["ate","eat","tea"]]
+-> S1: use map along with sorting: TC: O(k*nlogn) where k = no.of strings, n = length of longest string; SC: O(n);
+    let map = new Map()
+    for(let str of strs){
+        let sorted = str.split('').sort().join('')
+        if(!map.has(sorted)) map.set(sorted, [str])
+        else map.get(sorted).push(str)
+    }
+    return Array.from(map.values()) 
+
+(5) Product of array except self: given an int array nums, return an ans array such that ans[i] =  product of all the elements of nums except nums[i]. (You cannot use division operator)
+-> ans[i] = prefixProduct[i] * postfixProduct[i]; First traversal: store prefix product for each index; 2nd traversal(r->l): multiply the postfix product at curr index and store the updated postfix product. TC: O(n)
+
+(6) Valid Sudoku: Given a 2-D 9*9 array of characters where each character is an no. b/w [1,9] or is '.' (which implies empty). Return false if any row has a repeating no. OR if any col has a repeating no. OR if any 3*3 sub-box(there are 9 subboxes, see diagram) has a repeating no. 
+-> create total 27 sets: 9 sets -> for 1 row each; 9 sets -> for 1 col each; 9 sets -> 1 for each 3*# subbox. subboxes can be uniquely identified by their index [0,8]. where index of a box can be found by formula : (r/3)*3 + (c/3) (subboxes can be categorized vertically into 3 sections: Top, middle, bottom: r/3 = 0 => top, r/3 = 1 => middle, r/3 = 2 => bottom; similarly, subboxes can be categorized horizontally into 3 sections: Left, middle, right: so c/3; now multiply any one of them by 3 & adding them will give each subbox a unique index b/w [0,8]).   
+
+(7) Longest consecutive Subsequence: Given an unsorted array of integers nums, return the length of the longest consecutive elements sequence (ex. 4,5,6,7). You must write an algorithm that runs in O(n) time.
+-> Simple soultion is to sort the array & traverse; but TC: O(nlogn); create a set & put all the values in array into the set. now while traversing the array, check if set has (no.-1), if yes continue to next no. (bcoz this means that curr no. is not the start of its subsequence); else { while(set.has(no.+1)){ no.++; len++ }; ans = max(ans, len) } ; TC: O(n), SC: O(n)
+
+...........................................................................................................
+
