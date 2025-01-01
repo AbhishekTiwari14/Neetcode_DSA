@@ -130,4 +130,14 @@ Q2f: Design Browser history with methods to go to prev and next pages/urls.
 
                     STACKS:
                 
-->  
+->  LIFO: Last In First Out (st.top(), st.pop())
+-> Can be implemented using dynamic array
+
+        C++:
+
+-> declaration:   stack<int> st;
+
+-> built-in methods:  st.push(10); st.top();  st.pop(); st.empty(); st.size()
+
+        JS: No built-in stack data structure (use array instead)
+        
