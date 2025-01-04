@@ -101,6 +101,35 @@ similarly, vector<int> nse(n,n) & traverse r->l. now traverse l->r and ans = max
 
                 BINARY SEARCH:
 
-(21) 
+(21) BS1: given a sorted array & 'target'; return the index of target in arr; if target not present in arr, return -1.
+-> l=0, r=n-1; while(l<=r) int m = l + (r-l)/2; if(arr[m] > target) r = m-1; else if(<) l = m+1; else return m;   return -1;
 
+(22) Search in Sorted 2D Matrix: Given a 2D matrix with all rows as well as all cols sorted. Given an integer target, return true if target is in matrix or false otherwise.
+-> Simple solution is to apply BS on each row one-by-one: TC: O(r*logc). 
+Since, both rows & cols are sorted, we can treat it as a 1-D sorted array of size r*c by assuming to put all rows in 1 line. Now, if we apply BS, TC: O(r*c). So, s = 0, e = r*c-1 & m = s +(e-s)/2. And we can get rowNo. = m/c & colNo. = m%c. 
 
+(23) Koko Eating Bananas: given an array 'piles' where piles[i] = no. of bananas in ith pile & an int 'h'. Find the minimum speed with which koko should eat bananas(no.of bananas/hour) such that she eats all bananas within 'h' hours. Note: if she finishes all bananas in a pile within an hour, she cannot move to next pile untill the current hour is complete.
+-> min speed = 1(banana/hour), max speed = Math.max(...piles). so l = 1, r = Math.max(...piles). for each m(m = speed), calculate time req. to eat all bananas: for(auto x: piles) timeReq+= Math.ceil(x/m); if(timeReq > h) l = m+1; else { ans = m; r = m-1 } ; TC: O(nlog(maxElement in piles)).
+
+(24) Find Min. In Rotated Sorted Array: Given the sorted rotated array nums of unique elements, return the minimum element of this array.
+-> Rotated Sorted Array => 2 portions(left and right) which are separately sorted. ex. [4,5,6,7,1,2]: => left portion = [4,5,6,7] & right = [1,2]. So, min = min(nums[0], nums[j]) where j = index just after inflection point. here nums[j] = 1 & hence ans = 1. now, l=0, r = nums.size(), ans = nums[0]; while(l<=r){
+3 possible cases: (1) array is completely sorted:  if(nums[l]<nums[r]) return min(ans, nums[m]) }; (2) nums[l] < nums[m] => we're(ie, m is)  in left portion, so now move to right portion(since, we already have min. val. in left portion), so now, l = m+1; (3) nums[l] > nums[m] => we're(ie, m is) in right portion, so now move to left portion.
+
+(25) Search in Rotated Sorted Array: given a RSA & an int 'target', find it and return its index in arr; if target not present in arr, return -1
+-> l=0, r = nums.size; if(nums[m] == target) return m; if (nums[m] >= nums[l]) => we're in left part(l to m); if ( nums[l]>=target>=nums[m]) => target is also in this range(l to m), so r=m-1; else move to right part, ie, l=m+1; else (//ie, if we're in right part(m to r); if(nums[m]>=target>=nums[r] => target is also in this range(m to r), so l = m+1, else r = m-1)); return -1 
+
+(26) Design Map-Like Data Structure: design a data structure which can hold key: values pair (1 key can hold multiple values) & each value is a pair<string, int> : {val, timestamp}. Write 2 methods: (1)set(key, val, timestamp): to store the val & timestamp corresponding to the key; & (2) get(key, timestamp): which returns corresponding val, if key is not their, return ""; if timestamp is not their, then return val corresponding to the largest imestamp corresponding to this key <= input timestamp. Note: be assured that all the timestamps corresponding to a key will be in increasing order.
+-> JS: Use map() & store {k1: [[v1,t1], [v2,t2]]} in get method, to find correct [v, t] pair, apply BS on it; for set method: if(!this.map.has(key)) this.map.set(key, []); this.map.get(key).push([value, timestamp]); For get method: if(!this.map.has(key)) return ''; let ans = ""; const values = map.get(key); let l=0, r=values.length-1; while(l<=r){ let m = Math.floor(l + (r-l)/2); if(values[m][1] <= timestamp){ 
+ans = values[m][0]; l = m+1} else r = m-1 } return ans;     
+For C++: use map<string, vector<pair<string, int>>>;
+
+(27) Median of 2 Sorted Arrays: Given 2 sorted arrays(sizes n1 & n2), find the median of the merged sorted array.
+-> Simple Sol: create another array, which is merged sorted version of the 2 given arrays and return the middle element( if total elements = odd), else return avg. of 2 middle elements.
+BS Sol: Median element will divide the merged sorted array in 2 equal halfs (ie, left portion size = right portion size). This left protion will be created by combination of left portions of the two arrays (ex. left portion has x1 elements of arr1: ie, arr1[0, x1-1] & remaining(ie, half - x1) elements from arr2: ie, arr2[0, half - x1] (where half = (n1+n2)/2)). Lets apply BS on arr1: e=0, e=n1, half = (n1+n2)/2; while(s<=e){ int m1 = s+ (e-s/2); (note: m1 != mid index, but count of no. of elements of arr1 which we assume to be part of left portion of merged sorted array); int m2 = half-m1; int l1,l2 =INT_MIN(l1 = last element of arr1 which is in left portion;); int r1,r2 = INT_MAX(r1 = first element of arr1 which is in right portion); if(m1>0 (ie, there is atleast 1 element of arr1 in left portion){ l1 = nums[m1-1] }) if(m2>0) l2 = nums[m2-1]; if(m1<n1) (ie, if there is atleast 1 element of arr1 in right portion){ r1 = nums[m1] }; if(m2<n2) r2 = nums[m2];  } now, if(l1>r2) (ie => merged array is unsorted(right portion element > lpe)){ e=m1-1 }; else if(r1>l2){ s=m1+1 }; else (ie, valid MSA){ if ((n1+n2) % 2 == 1) return max(l1, l2); (ie, if total no. of elements = odd -> median = ) else return ((double)(max(l1, l2) + min(r1, r2))) / 2.0; } 
+TC: O(n1) (if n1>n2), we should apply BS on arr2: so, TC: O(min(n1,n2)); [see js code]
+
+...........................................................................................................
+
+                SLIDING WINDOW:
+
+(28) 

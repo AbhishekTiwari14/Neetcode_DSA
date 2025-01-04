@@ -1,3 +1,17 @@
+                    JS Basics:
+
+-> To find max element in arr: 
+    c++: int maxi = *max_element(arr.begin(), arr.end());
+    js: let maxi = Math.max(...arr)
+
+->  Big Int:
+    c++ : long long x= 5;
+    js: let x = 5n
+        x+= BigInt(y/z)          
+
+-> INT_MAX -> Number.MAX_SAFE_INTEGER  
+-> INT_MIN -> Number.MIN_SAFE_INTEGER  
+        
                     ARRAYS: 
 
     C++: (array = static array(size needs to be declared as well), vector = dynamic array)
@@ -141,3 +155,16 @@ Q2f: Design Browser history with methods to go to prev and next pages/urls.
 
         JS: No built-in stack data structure (use array instead)
         
+...........................................................................................................
+ 
+                    BINARY SEAARCH:
+
+-> Used on sorted array. l = 0,r = n-1 & m = l+ ((r-l)/2); if(target>ar[m]) => l=m+1, else r=m-1; TC: O(log(r-l)) ,ie, log(n)
+-> BS on answers: generally applicable when we have to find some kind of min/max or min of maximums or max of minimums
+-> lower bound index: = smallest index for which arr[i] >= target. If target > ar[n-1], lbi = n.  In-built method: lower_bound(v.begin(), v.end(), target) returns iterator pointing to the index 'i'. So,  lower_bound(v.begin(), v.end(), target) - v.begin() = i;
+-> upper bound index: = smallest index for which arr[i] > target. lbi = n. In-built method: upper_bound(v.begin(), v.end(), target) returns iterator pointing to the index 'i'. So,  upper_bound(v.begin(), v.end(), target) - v.begin() = i;
+-> upper_bound(v.begin(),v.end(),target) - lower_bound(v.begin(),v.end(),target) = no. of occurences of target in sorted array v.
+-> Rotated Sorted Array: pivot index = i => ar[i] > ar[i+1]; ar = [5,6,1,2,3,4] => i=1; 
+
+
+
