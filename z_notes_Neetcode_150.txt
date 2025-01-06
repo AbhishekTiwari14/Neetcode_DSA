@@ -132,4 +132,28 @@ TC: O(n1) (if n1>n2), we should apply BS on arr2: so, TC: O(min(n1,n2)); [see js
 
                 SLIDING WINDOW:
 
-(28) 
+(28) Buy Sell Stocks: given a prices array where prices[i] = prices of stock on ith day. Return the maximum profit one can earn by buying a stock ont jth day & selling it on kth day (j<k). Retrun 0 if no chance of making profit.
+-> int cost = prices[i], int profit = 0; for(auto x: prices){ profit = max(profit, x-cost); cost = min(cost, x) } return profit
+
+(29) Longest Substring without Repeating Char: Given a string s, find the length of the longest substring without repeating characters.
+-> set<char> st; int l=0, ans = 0; for(int r=0; r<s.size(); r++){ if(st.find(s[r] == st.end()) st.insert(x)); else{ while(s[l] != s[r]) st.erase(s[l]; l++) } ans = max(ans, r-l+1);}  return ans
+
+(30) Longest Repeating Char Replacement: Given a string s (containing only uppercase chars.) & int k; You can choose atmost k chars in s & replace them with any other uppercase char. Return the length of the longest substring containing the same letter.
+-> for a window, no. of replacements req = window size - count of freq. of maxFreq. element in the wondow; ie, = (r-l+1) - maxi; If this is <=k, then it is a valid window, else we will move l->l++ untill the window becomes a vaild window.
+vector<int> freq(26,0) int l=0; for(r=0 to s.size()-1){ freq[s[r]-'A']++; int maxi = *max_element(freq.begin(), freq.end()); while((r-l+1) - maxi > k){ freq[s[l]-'A']--; l++ } ans = max(ans, r-l+1) } return ans; TC: O(26*n) = O(n)
+
+(31) Permutation in String: Given two strings s1 and s2, return true if a substring of s2 is a 
+permutation of s1, or false otherwise.
+-> use 2 freq arrays(26,0); use a sliding window of fixed size: s1.size(); and check if count of all chars in s2's substring = s1's chars count. vector<int> ar1(26,0) , ar2(26,0); for(int i=0; i<s1.size(); i++) ar1[s1-'a']++, ar2[s2-'a']++; for(int i=0; i<25; i++){ if(ar1[i] == ar2[i]) matches++ }; int l=0; for(int r=s1.size(); r<s2.size(); r++){ if(matches == 26) return true; int ind1 = s2[r] - 'a'; ar2[ind1]++; if(ar2[ind1] == ar1[ind1]) matches++; else if(ar2[ind1] == ar1[ind1] + 1) matches--; int ind2 = s2[l]  - 'a'; ar2[ind2]--; if(ar1[ind2] == ar2[ind2]) matches++; else if(ar1[ind2] - 1 == ar2[ind2]) matches--; l++;} return matches == 26; TC: O(n2); 
+
+(32) Minimum Window Substring: Given two strings s and t of lengths m and n respectively, return the minimum window substring of s such that every character in t (including duplicates counts) is included in the window. If there is no such substring, return the empty string "".
+-> Use two <char, int> maps: mapS: to store freq. of all chars in ss window of s, mapT: to store freq. of all chars in t; use two ints: reqMatches: (ie, = no. of unique chars in t , ie, = mapT.size()) & charMatches: to store count of no. of chars for which freq. in matching; l=0; for(r=0 to s.size()){ mapS[s[r]]++; if(mapS[s[r]] == mapT[s[r]]){ charMatches++ } while(charMatches == reqMatches){ if(r-l+1 < ansLen){ansLen = r-l+1; ansL = l, ansR = r; } mapS[s[l]]--; if(mapS[s[l]] == mapT[s[l]] - 1) charMatches--; l++ } } if ansL == -1 return ""; else ans = ""; for(i = ansL to ansR) ans+= s[i]; return ans;
+
+(33) Sliding Window Max: given an int arr 'nums' & an int k. return an arr which stores the max value in each window of size k in nums.
+-> Use Monotonically Decreasing Deque: for(int i=0; i<n; i++){ while(!dq.empty() && nums[i] >= nums[dq.back()]) dq.pop_back(); (//ie, while moving l->r, all those on left of i which are < nums[i] cannot be ans[i or idx >i]) dq.push_back(i); if(dq.front() < i+1-k) dq.pop_front(); (//ie, if window size = k+1, remove leftmost index from window); if(i >= k-1) ans.push_back(nums[dq.front()]); (//ie, if window size = k, nums[dq.front()] = max val in window)} return ans;  TC: O(n), SC: O(n)
+
+...........................................................................................................
+
+                LINKED LISTS:
+
+(34)  
